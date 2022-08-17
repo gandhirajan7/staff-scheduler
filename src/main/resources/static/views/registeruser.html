@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css" >
+    <link rel="stylesheet" href="../css/all.min.css">
+    <link rel="stylesheet" href="../css/fontawesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link id="favicon" rel="shortcut icon" type="image/jpg" href="./../assets/images/login.jpg" />
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/adminCheck.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/createEmployee.js"></script>
+</head>
+<body>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Staff Scheduler</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../views/admin.html">Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Register Employee
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../views/declareholiday.html">Register Holiday</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../views/manageshift.html">Manage Shift</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <button type="button" id="logout" class="btn btn-danger">Logout</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script>
+            //Script to Make sure that while a new user is being registered, the data of joining falls after the Registration date.
+            $( document ).ready(function() {
+                var today = new Date().toISOString().split('T')[0];
+                //Setting Min to Today
+                document.getElementsByName("dateOfJoining")[0].setAttribute('min', today);
+                console.log( "Min : " + today );
+                var date = new Date();
+                //Logic to Set Max - Disabled because max date of joining can be anything after the registration is done.
+                var max = date.setDate(date.getDate() + 7 );
+                max = new Date(max).toISOString().split('T')[0]
+                //document.getElementsByName("dateOfJoining")[0].setAttribute('max', max);
+                console.log( "Max : " + max );
+                console.log( "document loaded" );
+            });
+        </script>
+
+        <div class = "container">
+            <div class="col-md-6" style="margin: inherit"> <h1 >Register a new employee</h1> </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-5">
+                    <form id="register" action="/" method="post">
+                        <div >
+                            <label class="col-form-label mt-4" for="employeeNumber"> <b>Enter the Employee Number:</b></label>
+                            <input type="text" class="form-control" placeholder="Starts with EMP" id="employeeNumber" name='employeeNumber' spellcheck="false" data-ms-editor="true">
+                            <div id="error" class="invalid-feedback"> <b></b><br></div>
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="emailId"> <b>Enter the Employee Email:</b></label>
+                            <input type="text" class="form-control" placeholder="Enter valid email " id="emailId" name='emailId' spellcheck="false" data-ms-editor="true">
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="firstName"> <b>Enter the First Name:</b></label>
+                            <input type="text" class="form-control" placeholder="First Name" id="firstName" name='firstName' spellcheck="false" data-ms-editor="true">
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="lastName"> <b>Enter the Last Name:</b></label>
+                            <input type="text" class="form-control" placeholder="Last Name" id="lastName" name='lastName' spellcheck="false" data-ms-editor="true">
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="phoneNumber"> <b>Enter the Phone Number:</b></label>
+                            <input type="text" class="form-control" placeholder="" id="phoneNumber" name='phoneNumber'>
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="departmentId"> <b> Department Id:</b></label>
+<!--                            <input type="number" min= 1 max= 5 class="form-control" placeholder="What's their Department?" id="departmentId" name='departmentId' spellcheck="false" data-ms-editor="true">-->
+                            <select class="form-control" name="departmentId" id="departmentId" spellcheck="false" placeholder="What's their Department?">
+                                <option value = "D01">D01</option>
+                                <option value = "D02">D02</option>
+                                <option value = "D03">D03</option>
+                                <option value = "D04">D04</option>
+                                <option value = "D05">D05</option>
+                            </select>
+                        </div>
+                        <div id="error-department-id" class="invalid-feedback"> <b></b><br></div>
+
+                        <div>
+                            <br><h6> <b>What's their Role?</b></h6>
+                            <div class="form-check disabled">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="roleId" id="roleIdIntern" value="3"> Intern </label>
+                            </div>
+                             <div class="form-check">
+                                <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="roleId" id="roleIdSupervisor" value="1" checked=""> Supervisor </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="roleId" id="roleIdStaff" value="2" > Staff </label>
+                            </div>
+                            <div class="form-check disabled">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="roleId" id="roleIdAdmin" value="0" disabled=""> Admin </label>
+                            </div>
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="maxAvailabilityHours"> <b>Maximum Availability Hours per day:</b></label>
+                            <input type="number" min= 1 max= 9 class="form-control" placeholder="How many hours they can work per day?" id="maxAvailabilityHours" name='maxAvailabilityHours' spellcheck="false" data-ms-editor="true">
+                        </div>
+                        <div>
+                            <br>
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="jobType" >Is this person a full-time employee?</label>
+                                <input class="form-check-input" type="checkbox" id="jobType" placeholder="What's their Job Type?" name='jobType' checked="true">
+                            </div>
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="dateOfJoining"> <b>Date of Joining:</b></label>
+                            <input type="date" class="form-control" placeholder="When when are they joining workforce?" id="dateOfJoining" name='dateOfJoining' spellcheck="false" data-ms-editor="true">
+                        </div>
+                        <div >
+                            <label class="col-form-label mt-4" for="sinNumber"> <b>Enter the SIN Number:</b></label>
+                            <input type="text" class="form-control" placeholder="xxx-xxxxxx" id="sinNumber" name='sinNumber' spellcheck="false" data-ms-editor="true">
+                        </div>
+                        <br>
+
+                        <button type="submit" class="form-control btn btn-success" name="registerbtn" id="registerbtn"> Submit </button>
+                    </form>
+                </div>
+
+                <div class="modal fade" id="informSuccess">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content card">
+                            <div class="text-black bg-success" >
+                                <div class="card-header text-center"> <b>Successful</b> </div>
+                                <div class="card-body text-center">
+                                    <h4 class="card-title "> New Employee has been Added to the System</h4>
+                                    <br>
+                                    <button type="button" class="btn btn-primary" style="margin-left: 10px" data-bs-dismiss="modal"> Close </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="informFailure">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content card">
+                            <div class="text-white bg-danger" >
+                                <div class="card-header text-center"> <b>Failure!</b> </div>
+                                <div class="card-body text-center">
+                                    <h4 class="card-title ">Employee was not Registered.</h4>
+                                    <br>
+                                    <button type="button" class="btn btn-primary" style="margin-left: 10px" data-bs-dismiss="modal"> Close </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="informClash">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content card">
+                        <div class="text-white bg-danger" >
+                            <div class="card-header text-center"> <b>Failure!</b> </div>
+                            <div class="card-body text-center">
+                                <h4 class="card-title ">Employee Number already Exits.</h4>
+                                <br>
+                                <button type="button" class="btn btn-primary" style="margin-left: 10px" data-bs-dismiss="modal"> Close </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div> <br><br><br>
+        <footer class="mt-auto py-3 footer-new bg-primary text-white">
+            © Group 20 | ASDC | Dalhousie University | Winter 2022
+        </footer>
+</body>
+</html>
